@@ -1,0 +1,123 @@
+
+import pandas as pd
+manifest = pd.read_csv("manifest.csv")
+manifest.set_index('FOV_id', drop=False, inplace=True)
+FOV_ids = manifest['FOV_id'].tolist()
+
+shell.executable("/bin/zsh")
+
+
+#For debugging purposes--lets me force all jobs to run
+rule all:
+    input:
+        f'{config["run_id"]}.db'
+
+#Get parameters for otsu and cellpose based on the samples defined in manifest.csv
+rule sample_images:
+    input:
+        'manifest.csv'
+    output:
+        'analysis_params.yaml'
+    params:
+        script = config["scripts_path"] + "/2_sample_images.py",
+        cp_resample = config["cp_resample"],
+        cp_batch_size = config["cp_batch_size"],
+        cp_min_size = config["cp_min_size"]
+    conda:
+        config["scripts_path"] + "/environment.yaml"
+    shell:
+        """
+        python {params.script} \
+        --cp_resample {params.cp_resample} \
+        --cp_batch_size {params.cp_batch_size} \
+        --cp_min_size {params.cp_min_size} \
+        --manifest manifest.csv
+        """
+#Run cellpose on all of the CellMask images
+rule run_cellpose:
+    input:
+        'manifest.csv',
+        'analysis_params.yaml'
+    output:
+        expand("cellpose_masks/{FOV_id}_cellpose.tif", FOV_id=manifest['FOV_id'].tolist()),
+    params:
+        script = config["scripts_path"] + "/3_run_cellpose.py",
+        cp_batch_size = config["cp_batch_size"],
+        cp_min_size = config["cp_min_size"],
+        cp_image_pool_size = config['cp_image_pool_size'],
+        cp_resample = config["cp_resample"],
+        output_folder = f'{config["output_folder"]}/cellpose_masks'
+    conda:
+        config["scripts_path"] + "/environment.yaml"
+    shell:
+        """
+        python {params.script} \
+        --cp_batch_size {params.cp_batch_size} \
+        --cp_min_size {params.cp_min_size} \
+        --cp_image_pool_size {params.cp_image_pool_size} \
+        --cp_resample {params.cp_resample} \
+        --output_folder {params.output_folder}
+        """
+
+#Analyze a single FOV
+rule process_fov:
+    input:
+        CellMask= lambda wc: manifest.loc[wc.FOV_id, 'CellMask'],
+        cellpose= 'cellpose_masks/{FOV_id}_cellpose.tif',
+        constitutive= lambda wc: manifest.loc[wc.FOV_id, 'constitutive'],
+        reporter= lambda wc: manifest.loc[wc.FOV_id, 'reporter']
+    output:
+        'merged_FOVs/{FOV_id}_merged.tif',
+        'parquet/{FOV_id}_cellpose.parquet',
+        'parquet/{FOV_id}_constitutive.parquet',
+        'parquet/{FOV_id}_constOverlap.parquet',
+        'parquet/{FOV_id}_reporter.parquet',
+        'parquet/{FOV_id}_repOverlap.parquet'
+    params:
+        script = config["scripts_path"] + "/4_process_fov.py",
+        plate_id= config['run_id'],
+        row= lambda wc: manifest.loc[wc.FOV_id, 'well_row'],
+        col= lambda wc: manifest.loc[wc.FOV_id, 'well_column'],
+        site= lambda wc: manifest.loc[wc.FOV_id, 'well_site'],
+        image_output= f'{config["output_folder"]}/merged_FOVs',
+        parquet_output= f'{config["output_folder"]}/parquet'
+    conda:
+        config["scripts_path"] + "/environment.yaml"
+    shell:
+        """
+        python {params.script} \
+        --cellpose_image {input.cellpose} \
+        --CellMask_image {input.CellMask} \
+        --constitutive_image {input.constitutive} \
+        --reporter_image {input.reporter} \
+        --image_output_dir {params.image_output} \
+        --parquet_output_dir {params.parquet_output} \
+        --analysis_params 'analysis_params.yaml' \
+        --row {params.row} \
+        --col {params.col} \
+        --site {params.site} \
+        --plate_id {params.plate_id}
+        """
+#Compile parquets into single file
+rule combine_parquets:
+    input:
+        expand("parquet/{FOV_id}_cellpose.parquet", FOV_id=FOV_ids),
+        expand("parquet/{FOV_id}_constitutive.parquet", FOV_id=FOV_ids),
+        expand("parquet/{FOV_id}_constOverlap.parquet", FOV_id=FOV_ids),
+        expand("parquet/{FOV_id}_reporter.parquet", FOV_id=FOV_ids),
+        expand("parquet/{FOV_id}_repOverlap.parquet", FOV_id=FOV_ids)
+    output:
+        duckdb = f'{config["run_id"]}.db'
+    params:
+        script=config["scripts_path"] + "/5_combine_parquets.py",
+        parquets_path = f'{config["output_folder"]}/parquet'
+    conda:
+        config["scripts_path"] + "/environment.yaml"
+    shell:
+        """
+        python {params.script} \
+        --parquets_path {params.parquets_path} \
+        --output {output.duckdb} \
+        --manifest 'manifest.csv' \
+        --library_annotation_file '/Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/BacilliScope/SangerLibraryAnnotations.csv' \
+        """

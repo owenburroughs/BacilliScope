@@ -1,0 +1,17 @@
+name: Bacilliscope
+channels:
+  - bioconda
+  - defaults
+  - conda-forge
+  - nodefaults
+dependencies:
+  - python=3.13.9
+  - gooey=1.0.8.1
+  - pandas=2.3.3
+  - cellpose=3.1.1.2
+  - matplotlib
+  - scikit-image=0.25.2
+  - pillow=12.0.0
+  - numpy=2.3.4
+  - tifffile=2024.12.12
+  - duckdb=1.2.1
