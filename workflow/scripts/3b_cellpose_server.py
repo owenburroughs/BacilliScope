@@ -14,6 +14,7 @@
 #   (1) Client sends message in the form of the following object (serialized as JSON):
 #       {
 #           message_type: string = ("cellpose_job" | "ping" | "exit")
+#           request_id: str // 8-character string we use to confirm that the response for a job matches the request
 #           input_file: string // the global path to the input filename for a cellpose job
 #           output_file: string // the global path to the output filename for a cellpose job
 #           diameter: float // diameter to pass to cellpose model
@@ -22,9 +23,12 @@
 #           min_size: int // cellpose minimum size paramter
 #       }
 #
-#   (2) Server responds with:
-#       b'0' = success
-#       anything else = failure (with optional info)  // this is some type-unsafe nonsense
+#   (2) Server responds with the following object (serialized as JSON):
+#       {
+#           response_id: str // 8-character string that was the message ID for the request
+#           response_status: int // 0 if successful, all else is a failure
+#           response_string: str // optional string to append to response
+#       }
 #-------------------------------------------------------
 
 import argparse
@@ -33,10 +37,12 @@ import zmq
 import psutil
 import json
 import time
+import setproctitle as spt
 
 from cellpose import models
 from PIL import Image
 import numpy as np
+
 
 DMS_MAX = 30 # Maximum allowed value for the dead man's switch counter
 RCV_TIMEOUT = 10000 # Timeout (ms) for the recv() function so we don't infinitely wait
@@ -45,7 +51,9 @@ RUNTIME_REPORT_INTERVAL = 1 #How often do we report the average runtimes of cell
 class CellposeServer():
     def __init__(
             self, 
-            socket_path:str
+            socket_path:str,
+            process_name:str,
+            owner_pid:int
         ):
         
         # Set up the zmq socket as in request-reply as a reciever
@@ -56,7 +64,7 @@ class CellposeServer():
         print(f'Cellpose server binding to IPC at socket ipc://{socket_path}.', flush=True)
         
         # Get parent process id and store a process
-        self.parent_process = psutil.Process(os.getppid())
+        self.parent_process = psutil.Process(owner_pid)
         self.DMS_counter = 0 # Dead man's switch counter to make sure the server is never open for infinitely long
         
         # Set up the cellpose instance
@@ -66,12 +74,16 @@ class CellposeServer():
         # Create a list to store cellpose runtimes
         self.runtimes = []
         
+        # Set the process title for this server
+        spt.setproctitle(process_name)
+        
         print("Cellpose server initialized.")
         
     #-------------------------------------------------
     # MAIN ZMQ LISTENER LOOP
     #-------------------------------------------------
     def start_listener(self):
+        print("Listening for cellpose messages")
         #------------------  Listen for ZMQ messages and reply with a response --------------
         while True:
             try:
@@ -84,6 +96,11 @@ class CellposeServer():
                     self.socket.send(b"ERROR: message_type was not provided in the request.")
                     continue
                 
+                if not "request_id" in message.keys():
+                    print("ERROR: requests must contain a request_id.")
+                    self.socket.send(b"ERROR: requests must contain a request_id.")
+                    continue
+                
                 if not message["message_type"] in ['cellpose_job', 'ping', 'exit']:
                     return_message = f"ERROR: Unknown message type {message['message_type']}."
                     print(return_message)
@@ -91,12 +108,22 @@ class CellposeServer():
                     continue
                 
                 #--------------- What we do next depends on what the message was -------------
+                response_id = message['request_id']
+                
                 match message['message_type']:
                     case "ping":
-                        self.socket.send(b"pong")
+                        self.socket.send_json({
+                            'response_id' : response_id,
+                            'response_status' : 0,
+                            'response_text' : 'pong'
+                        })
                         
                     case "exit":
-                        self.socket.send(b"Shutting down Cellpose server")
+                        self.socket.send_json({
+                            'response_id' : response_id,
+                            'response_status' : 0,
+                            'response_text' : 'Shutting down cellpose server.'
+                        })
                         self.shutdown()
                         break
                     
@@ -107,7 +134,11 @@ class CellposeServer():
                             if not required_key in message.keys():
                                 return_message = f'ERROR: Key {required_key} is required for message type "cellpose_job"'
                                 print(return_message)
-                                self.socket.send(return_message.encode())
+                                self.socket.send_json({
+                                    'response_id' : response_id,
+                                    'response_status' : 1,
+                                    'response_text' : return_message
+                                })
                                 
                         # Finally, send the validated job to be run through cellpose
                         try: 
@@ -120,11 +151,20 @@ class CellposeServer():
                                 min_size = message['min_size']
                             )
                             
-                            self.socket.send(b'0')
+                            self.socket.send_json({
+                                'response_id' : response_id,
+                                'response_status' : 0,
+                                'response_text' : 'Cellpose completed successfully.'
+                            })
+                            
                         except Exception as e:
                             return_message = f'ERROR: {e}'
                             print(return_message)
-                            self.socket.send(return_message.encode())
+                            self.socket.send_json({
+                                'response_id' : response_id,
+                                'response_status' : 1,
+                                'response_text' : return_message
+                            })
                             continue
                         
                 self.DMS_counter = 0 # Reset the DMS Counter
@@ -185,7 +225,8 @@ class CellposeServer():
         
         # Report the average runtime if we hit our interval
         if (len(self.runtimes) % RUNTIME_REPORT_INTERVAL) == 0:
-            print(f'Run cellpose {len(self.runtimes)} times with an average of {np.mean(self.runtimes)} seconds per image.')
+            print(f'Cellpose ran in {self.runtimes[-1]} seconds.')
+            print(f'Ran cellpose {len(self.runtimes)} times with an average of {np.mean(self.runtimes)} seconds per image.')
         
     #-------------------------------------------------
     # RETURN WHETHER PARENT PROCESS IS ALIVE
@@ -211,9 +252,19 @@ class CellposeServer():
 if __name__ == "__main__":
     #Load arguments
     parser = argparse.ArgumentParser()
-    parser.add_argument('--socket_path', '-s', help="Path for the IPC socket used to communicate with this process.", type=str, default='/tmp/bacilliscope')  
+    parser.add_argument('--socket-path', '-s', help="Path for the IPC socket used to communicate with this process.", type=str, default='/tmp/cellpose_server.sock') 
+    parser.add_argument('--owner-pid', '-o', help="PID for the process that owns this process.", type=int, default=-1)  
+    parser.add_argument('--process-name', '-p', help="Name for this process.", type=str, default='cellpose-server-406mt')  
     args = vars(parser.parse_args())
+    
+    # For debugging: set PID to parent PID if not passed (this will usually be the terminal)
+    owner_pid = args['owner_pid']
+    if owner_pid == -1:
+        owner_pid = os.getppid()
+    
     server = CellposeServer(
-                socket_path=args['socket_path']
+                socket_path=args['socket_path'],
+                process_name=args['process_name'],
+                owner_pid= owner_pid
             )
     server.start_listener()
