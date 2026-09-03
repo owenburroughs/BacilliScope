@@ -1,3 +1,4 @@
+configfile: 'config/config.yaml'
 
 import pandas as pd
 manifest = pd.read_csv("manifest.csv")
@@ -5,6 +6,9 @@ manifest.set_index('FOV_id', drop=False, inplace=True)
 FOV_ids = manifest['FOV_id'].tolist()
 
 shell.executable("/bin/zsh")
+
+
+
 
 
 #For debugging purposes--lets me force all jobs to run
