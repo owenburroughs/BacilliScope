@@ -8,10 +8,19 @@ if __name__ == "__main__":
     args = vars(parser.parse_args())
     
     
+    message_json = {
+        'message_type' : 'cellpose_job',
+        'input_file' : 't1_A01_s1_w1_z1.tif',
+        'output_file' : 'output.tif',
+        'diameter' : 30,
+        'resample' : False,
+        'batch_size' : 8,
+        'min_size' : 100
+    }
     
     context = zmq.Context()
     socket = context.socket(zmq.REQ)
-    socket.connect("ipc://bacilliscope")
-    socket.send(args['message'].encode())
+    socket.connect("ipc:///tmp/bacilliscope")
+    socket.send_json(message_json)
     message = socket.recv()
     print(f"Received: {message}")
