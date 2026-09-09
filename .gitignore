@@ -5,3 +5,4 @@ HTS_Bacilliscope/*.db
 Test_Dataset
 Test_Output
 *.tif
+./snakemake
