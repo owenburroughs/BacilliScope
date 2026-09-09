@@ -1,0 +1,3 @@
+KeyError in file "/Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/BacilliScope/workflow/Snakefile", line 17:
+'input_dir'
+  File "/Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/BacilliScope/workflow/Snakefile", line 17, in <module>

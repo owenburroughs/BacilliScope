@@ -225,8 +225,8 @@ class CellposeServer():
         
         # Report the average runtime if we hit our interval
         if (len(self.runtimes) % RUNTIME_REPORT_INTERVAL) == 0:
-            print(f'Cellpose ran in {self.runtimes[-1]} seconds.')
-            print(f'Ran cellpose {len(self.runtimes)} times with an average of {np.mean(self.runtimes)} seconds per image.')
+            print(f'Cellpose ran in {self.runtimes}')
+            print(f'Run cellpose {len(self.runtimes)} times with an average of {np.mean(self.runtimes)} seconds per image.')
         
     #-------------------------------------------------
     # RETURN WHETHER PARENT PROCESS IS ALIVE

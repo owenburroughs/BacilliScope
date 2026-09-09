@@ -18,6 +18,10 @@ import subprocess
 import os
 import time
 
+from typing import TYPE_CHECKING
+if TYPE_CHECKING:
+    from snakemake.iocontainers import snakemake
+
 SERVER_PROCESS_NAME = 'cellpose-server-406mt'
 NEW_SERVER_TIMEOUT_MS = 5000
 NEW_SERVER_TRIES = 20
@@ -25,7 +29,7 @@ NEW_SERVER_TRIES = 20
 CELLPOSE_TIMEOUT = 10000
 CELLPOSE_TRIES = 1
 
-verbose = False
+verbose = True
 
 # DEBUG (VERBOSE) PRINTING
 def debug(message:str)->None:
@@ -209,31 +213,48 @@ def start_cellpose_server(
 # ----------------------------------------------------------------------------------
 # MAIN FUNCTION
 # ----------------------------------------------------------------------------------
+
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    
-    # Cellpose parameters
-    parser.add_argument('--input-file', '-i', help="Input file for cellpose.", type=str)
-    parser.add_argument('--output-file', '-o', help="Output file for cellpose.", type=str)
-    parser.add_argument('--diameter', '-d', help="Diameter param for cellpose.", type=float)
-    parser.add_argument('--resample', '-r', help="Resample parameter for cellpose.", action='store_true')
-    parser.add_argument('--batch-size', '-b', help="Batch size parameter for cellpose.", type=int)
-    parser.add_argument('--min-size', '-m', help="Min size parameter for cellpose.", type=int)
-    parser.add_argument('--verbose', '-v', help="Should we print verbose logs?", action='store_true')
+    try:
+        input_file = snakemake.input
+        output_file = snakemake.output
+        diameter = snakemake.params['diameter']
+        resample = snakemake.params['resample']
+        batch_size = snakemake.params['batch_size']
+        min_size = snakemake.params['min_size']
+        snakemake_PID = snakemake.params['snakemake_PID']
+        socket_path = snakemake.params['socket_path']
+                
+    except NameError:
+        parser = argparse.ArgumentParser()
+        # Cellpose parameters
+        parser.add_argument('--input-file', '-i', help="Input file for cellpose.", type=str)
+        parser.add_argument('--output-file', '-o', help="Output file for cellpose.", type=str)
+        parser.add_argument('--diameter', '-d', help="Diameter param for cellpose.", type=float)
+        parser.add_argument('--resample', '-r', help="Resample parameter for cellpose.", action='store_true')
+        parser.add_argument('--batch-size', '-b', help="Batch size parameter for cellpose.", type=int)
+        parser.add_argument('--min-size', '-m', help="Min size parameter for cellpose.", type=int)
 
-    # Server startup parameters
-    parser.add_argument('--snakemake-PID', '-p', help="The PID of the snakemake process. Passed to the server to dictate shutdown behavior.", type=int, default=-1)
-    parser.add_argument('--socket-path', '-k', help="Path to the socket used for IPC communication with the server.", type=str, default='/tmp/cellpose_server.sock')
+        # Server startup parameters
+        parser.add_argument('--snakemake-PID', '-p', help="The PID of the snakemake process. Passed to the server to dictate shutdown behavior.", type=int, default=-1)
+        parser.add_argument('--socket-path', '-k', help="Path to the socket used for IPC communication with the server.", type=str, default='/tmp/cellpose_server.sock')
 
-    args = vars(parser.parse_args())
+        args = vars(parser.parse_args())
+        input_file= args['input_file']
+        output_file= args['output_file']
+        diameter= args['diameter']
+        resample= args['resample']
+        batch_size= args['batch_size']
+        min_size= args['min_size']
+        socket_path= args['socket_path']
+        snakemake_PID= args['snakemake_PID']
+    except Exception as e:
+        print(e)
+        sys.exit(1)
     
     # For debugging: set snakemake PID to current PID if not passed (this will usually be the terminal)
-    snakemake_PID = args['snakemake_PID']
     if snakemake_PID == -1:
         snakemake_PID = os.getpid()
-    
-    # Set global verbose variable to our command line argument
-    verbose = args['verbose']
     
     start_time = time.time()
     

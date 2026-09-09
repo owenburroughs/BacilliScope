@@ -1,0 +1,3 @@
+SyntaxError in file "/Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/BacilliScope/workflow/Snakefile", line 80:
+invalid syntax. Perhaps you forgot a comma?:
+				plate_data_dir = "<plate_data>/{plate_name}"

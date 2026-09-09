@@ -1,0 +1,26 @@
+Assuming unrestricted shared filesystem usage.
+host: MacBook-Pro-826.local
+Building DAG of jobs...
+MissingInputException in rule sample_images in file "/Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/BacilliScope/workflow/Snakefile", line 78:
+Missing input files for rule sample_images:
+    output: results/001_BacA-1_EPS007_19700101/001_BacA-1_EPS007_19700101.params.yaml
+    wildcards: plate_name=001_BacA-1_EPS007_19700101
+    affected files:
+        t1_A02_s1_w1_z1.tif
+        t1_A06_s1_w1_z1.tif
+        t1_A06_s2_w1_z1.tif
+        t1_A01_s2_w1_z1.tif
+        t1_A02_s2_w1_z1.tif
+        t1_A01_s3_w1_z1.tif
+        t1_A01_s1_w1_z1.tif
+        t1_A03_s1_w1_z1.tif
+        t1_A05_s3_w1_z1.tif
+        t1_A03_s3_w1_z1.tif
+        t1_A04_s3_w1_z1.tif
+        t1_A06_s3_w1_z1.tif
+        t1_A05_s1_w1_z1.tif
+        t1_A05_s2_w1_z1.tif
+        t1_A04_s2_w1_z1.tif
+        t1_A02_s3_w1_z1.tif
+        t1_A04_s1_w1_z1.tif
+        t1_A03_s2_w1_z1.tif

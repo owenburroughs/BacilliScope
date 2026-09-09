@@ -1,0 +1,20 @@
+# The directory containing the plate data
+pathvars:
+  plate_data: '/Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset'
+
+# The channel indicies for this experiment
+channels:
+  cellmask: 1
+  constitutive: 2
+  reporter: 3
+
+# Parameters to use for cellpose
+cellpose_params:
+  diameter: 40
+  resample: False
+  batch-size: 16
+  min-size: 100
+  verbose: True
+
+# The proportion of images to sample for Otsu thresholds
+sample_proportion: 0.1
