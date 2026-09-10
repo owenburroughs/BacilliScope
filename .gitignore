@@ -5,7 +5,6 @@ HTS_Bacilliscope/*.db
 Test_Dataset
 Test_Output
 *.tif
-workflow/.snakemake
 */.DS_Store
 .DS_Store
 */__pycache__
