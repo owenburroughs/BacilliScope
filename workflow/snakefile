@@ -66,13 +66,20 @@ def get_channel_images(channel):
         ]
     return filenames
 
+#Get the image for a specific channel, assuming FOV and plate name are valid wildcards
+def get_channel_image(wildcards, channel):
+    return f'{config['pathvars']['plate_data']}/{wildcards.plate_name}/{
+                generate_raw_name(
+                    groupdict = extract_std_name(wildcards.FOV),
+                    channel = config['channels']['cellmask']
+                )}'
 
 #-----------------------------------------------------------
 # RULE ALL: Resolve plate names from directory names
 #-----------------------------------------------------------
 rule all:
    input:
-       expand("<results>/{plate_name}/cellpose.done", plate_name=PLATE_NAMES)
+       expand("<results>/{plate_name}/processFOV.done", plate_name=PLATE_NAMES)
 
 
 #-----------------------------------------------------------
@@ -108,11 +115,7 @@ rule sample_images:
 #-----------------------------------------------------------
 rule run_cellpose:
     input:
-        cellmask_image= lambda wc: f'{config['pathvars']['plate_data']}/{wc.plate_name}/{
-                        generate_raw_name(
-                            groupdict = extract_std_name(wc.FOV),
-                            channel = config['channels']['cellmask']
-                        )}'
+        cellmask_image= lambda wc: get_channel_image(wildcards=wc, channel = config['channels']['cellmask'])
     output:
         cellpose_mask= "<results>/{plate_name}/cellpose_masks/{FOV}_cellpose.tif"
     params:
@@ -123,7 +126,7 @@ rule run_cellpose:
         snakemake_PID = PID,
         socket_path = config['cellpose']['socket_path'],
         server_path = f'{workflow.basedir}/scripts/2b_cellpose_server.py',
-        verbose = config['cellpose']['verbose'],
+        verbose = config['cellpose']['verbose']
     resources:
         gpu= 1
     script:
@@ -134,11 +137,42 @@ rule run_cellpose:
 #-----------------------------------------------------------
 rule process_fov:
     input:
-        cellpose_mask = expand("<results>/{{plate_name}}/cellpose_masks/{FOV}_cellpose.tif",
-                            FOV = get_FOVs
-                        )
+        cellpose = "<results>/{plate_name}/cellpose_masks/{FOV}_cellpose.tif",
+
+        cellmask = lambda wc: get_channel_image(wildcards=wc, channel = config['channels']['cellmask']),
+
+        constitutive = lambda wc: get_channel_image(wildcards=wc, channel = config['channels']['constitutive']),
+
+        reporter = lambda wc: get_channel_image(wildcards=wc, channel = config['channels']['reporter']),
+
+        analysis_params = "<results>/{plate_name}/{plate_name}.params.json"
+
     output:
-        "<results>/{plate_name}/cellpose.done"
+        merged_image = "<results>/{plate_name}/merged_images/{FOV}_merged.tif",
+        cellpose_parquet = "<results>/{plate_name}/parquets/{FOV}_cellpose.parquet",
+        constitutive_parquet = "<results>/{plate_name}/parquets/{FOV}_constitutive.parquet",
+        reporter_parquet = "<results>/{plate_name}/parquets/{FOV}_reporter.parquet",
+        constOverlap_parquet = "<results>/{plate_name}/parquets/{FOV}_constOverlap.parquet",
+        repOverlap_parquet = "<results>/{plate_name}/parquets/{FOV}_repOverlap.parquet"
+
+    params:
+        FOV_id = "{FOV}",
+        row = lambda wc: extract_std_name(wc.FOV)['row'],
+        column = lambda wc: extract_std_name(wc.FOV)['column'],
+        site = lambda wc: extract_std_name(wc.FOV)['site'],
+        plate_id = "{plate_name}"
+
+    script:
+        "scripts/3_process_fov.py"
+
+#-----------------------------------------------------------
+# RULE 4: Combine Parquets
+#-----------------------------------------------------------
+rule combine_parquets:
+    input:
+        cellpose_parquet= expand("<results>/{{plate_name}}/parquets/{FOV}_cellpose.parquet", FOV = get_FOVs)
+    output:
+        "<results>/{plate_name}/processFOV.done"
     shell:
         """
             echo "Test" >> {output}

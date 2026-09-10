@@ -14,7 +14,7 @@ import numpy as np
 from typing import TYPE_CHECKING
 from PIL import Image
 from skimage.filters import threshold_otsu
-from utils.subtract_background_median import subtract_background_median
+from utils.BacteriaAnalysis import subtract_background_median
 
 if TYPE_CHECKING:
     from snakemake.iocontainers import snakemake
