@@ -1,4 +1,0 @@
-SyntaxError in file "/Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/BacilliScope/workflow/Snakefile", line 106:
-invalid syntax. Perhaps you forgot a comma?:
-        reporter_images=expand(
-

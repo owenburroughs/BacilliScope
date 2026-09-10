@@ -1,3 +1,0 @@
-NameError in file "/Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/BacilliScope/workflow/Snakefile", line 83:
-name 'get_cellmask_filenames' is not defined
-  File "/Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/BacilliScope/workflow/Snakefile", line 83, in <module>
