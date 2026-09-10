@@ -24,7 +24,7 @@ if TYPE_CHECKING:
 
 SERVER_PROCESS_NAME = 'cellpose-server-406mt'
 NEW_SERVER_TIMEOUT_MS = 5000
-NEW_SERVER_TRIES = 20
+NEW_SERVER_TRIES = 5
 
 CELLPOSE_TIMEOUT = 10000
 CELLPOSE_TRIES = 1
@@ -47,7 +47,8 @@ def send_cellpose_job(
     batch_size: int,
     min_size: int,
     socket_path: str,
-    snakemake_PID: str
+    snakemake_PID: str,
+    server_path: str
 )-> int:
     #to-do lock communication with the server so we only have one request at a time?
     
@@ -80,7 +81,8 @@ def send_cellpose_job(
     
     server_status = start_cellpose_server(
                         socket_path=socket_path,
-                        snakemake_pid=snakemake_PID
+                        snakemake_pid=snakemake_PID,
+                        server_path=server_path
                     )
     
     if server_status != 0:
@@ -98,6 +100,7 @@ def send_cellpose_job(
         
     # Did we get a response back from the server?
     if cellpose_result != None:
+        print(cellpose_result)
         return cellpose_result['response_status']
     else:
         raise Exception("Cellpose job failed even after restarting server.")
@@ -168,7 +171,8 @@ def message_to_server(
 # ----------------------------------------------------------------------------------
 def start_cellpose_server(
         socket_path: str,
-        snakemake_pid: int
+        snakemake_pid: int,
+        server_path: str
     )-> int:
     debug("(Re)starting cellpose server.")
     #------------- Are there any cellpose servers running? -------------------------
@@ -182,14 +186,13 @@ def start_cellpose_server(
     server = subprocess.Popen(
         [
             sys.executable,
-            "3b_cellpose_server.py",
+            server_path,
             "--owner-pid", str(snakemake_pid),
             "--socket-path", socket_path,
             "--process-name", SERVER_PROCESS_NAME
         ],
         start_new_session=True,
         stdin=subprocess.DEVNULL,
-        stdout=subprocess.DEVNULL,
         stderr=subprocess.DEVNULL,
     )
     
@@ -215,16 +218,20 @@ def start_cellpose_server(
 # ----------------------------------------------------------------------------------
 
 if __name__ == "__main__":
+    # Run from Snakemake
     try:
-        input_file = snakemake.input
-        output_file = snakemake.output
+        input_file = snakemake.input['cellmask_image']
+        output_file = snakemake.output['cellpose_mask']
         diameter = snakemake.params['diameter']
         resample = snakemake.params['resample']
         batch_size = snakemake.params['batch_size']
         min_size = snakemake.params['min_size']
         snakemake_PID = snakemake.params['snakemake_PID']
         socket_path = snakemake.params['socket_path']
-                
+        server_path = snakemake.params['server_path']
+        
+         
+    # Run from command line       
     except NameError:
         parser = argparse.ArgumentParser()
         # Cellpose parameters
@@ -236,6 +243,7 @@ if __name__ == "__main__":
         parser.add_argument('--min-size', '-m', help="Min size parameter for cellpose.", type=int)
 
         # Server startup parameters
+        parser.add_argument("--server-path", help="Path to the python file for the server", type=str, default="2b_cellpose_server.py")
         parser.add_argument('--snakemake-PID', '-p', help="The PID of the snakemake process. Passed to the server to dictate shutdown behavior.", type=int, default=-1)
         parser.add_argument('--socket-path', '-k', help="Path to the socket used for IPC communication with the server.", type=str, default='/tmp/cellpose_server.sock')
 
@@ -248,25 +256,28 @@ if __name__ == "__main__":
         min_size= args['min_size']
         socket_path= args['socket_path']
         snakemake_PID= args['snakemake_PID']
+        server_path = args['server_path']
+        
     except Exception as e:
         print(e)
         sys.exit(1)
     
-    # For debugging: set snakemake PID to current PID if not passed (this will usually be the terminal)
+    # For debugging: set snakemake PID to current PID if not passed (this will usually be the terminal)x
     if snakemake_PID == -1:
         snakemake_PID = os.getpid()
     
     start_time = time.time()
     
     return_val = send_cellpose_job(
-                    input_file= args['input_file'],
-                    output_file= args['output_file'],
-                    diameter= args['diameter'],
-                    resample= args['resample'],
-                    batch_size= args['batch_size'],
-                    min_size= args['min_size'],
-                    socket_path= args['socket_path'],
-                    snakemake_PID= snakemake_PID
+                    input_file= input_file,
+                    output_file= output_file,
+                    diameter= diameter,
+                    resample= resample,
+                    batch_size= batch_size,
+                    min_size= min_size,
+                    socket_path= socket_path,
+                    snakemake_PID= snakemake_PID,
+                    server_path= server_path,
                 )
     
     end_time = time.time()

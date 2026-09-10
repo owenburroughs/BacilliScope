@@ -1,0 +1,519 @@
+Assuming unrestricted shared filesystem usage.
+host: MacBook-Pro-826.local
+Building DAG of jobs...
+Using shell: /bin/zsh
+Provided cores: 11
+Rules claiming more threads will be scaled down.
+Provided resources: gpu=Resource("gpu", 1)
+Job stats:
+job             count
+------------  -------
+run_cellpose       36
+process_fov         2
+all                 1
+total              39
+
+Select jobs to execute...
+Execute 1 jobs...
+[Wed Sep  9 17:32:55 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/001_BacA-1_EPS007_19700101/t1_A01_s1_w1_z1.tif
+    output: results/001_BacA-1_EPS007_19700101/cellpose_masks/A01s1t1z1_cellpose.tif
+    jobid: 2
+    reason: Forced execution
+    wildcards: plate_name=001_BacA-1_EPS007_19700101, FOV=A01s1t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:33:14 2026]
+Finished jobid: 2 (Rule: run_cellpose)
+1 of 39 steps (3%) done
+Execute 1 jobs...
+[Wed Sep  9 17:33:14 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/002_BacA-2_EPS007_19700101/t1_A03_s1_w1_z1.tif
+    output: results/002_BacA-2_EPS007_19700101/cellpose_masks/A03s1t1z1_cellpose.tif
+    jobid: 27
+    reason: Forced execution
+    wildcards: plate_name=002_BacA-2_EPS007_19700101, FOV=A03s1t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:33:17 2026]
+Finished jobid: 27 (Rule: run_cellpose)
+2 of 39 steps (5%) done
+Execute 1 jobs...
+[Wed Sep  9 17:33:17 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/001_BacA-1_EPS007_19700101/t1_A06_s2_w1_z1.tif
+    output: results/001_BacA-1_EPS007_19700101/cellpose_masks/A06s2t1z1_cellpose.tif
+    jobid: 18
+    reason: Forced execution
+    wildcards: plate_name=001_BacA-1_EPS007_19700101, FOV=A06s2t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:33:20 2026]
+Finished jobid: 18 (Rule: run_cellpose)
+3 of 39 steps (8%) done
+Execute 1 jobs...
+[Wed Sep  9 17:33:20 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/001_BacA-1_EPS007_19700101/t1_A04_s1_w1_z1.tif
+    output: results/001_BacA-1_EPS007_19700101/cellpose_masks/A04s1t1z1_cellpose.tif
+    jobid: 11
+    reason: Forced execution
+    wildcards: plate_name=001_BacA-1_EPS007_19700101, FOV=A04s1t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:33:22 2026]
+Finished jobid: 11 (Rule: run_cellpose)
+4 of 39 steps (10%) done
+Execute 1 jobs...
+[Wed Sep  9 17:33:22 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/002_BacA-2_EPS007_19700101/t1_A05_s2_w1_z1.tif
+    output: results/002_BacA-2_EPS007_19700101/cellpose_masks/A05s2t1z1_cellpose.tif
+    jobid: 34
+    reason: Forced execution
+    wildcards: plate_name=002_BacA-2_EPS007_19700101, FOV=A05s2t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:33:25 2026]
+Finished jobid: 34 (Rule: run_cellpose)
+5 of 39 steps (13%) done
+Execute 1 jobs...
+[Wed Sep  9 17:33:25 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/002_BacA-2_EPS007_19700101/t1_A05_s3_w1_z1.tif
+    output: results/002_BacA-2_EPS007_19700101/cellpose_masks/A05s3t1z1_cellpose.tif
+    jobid: 35
+    reason: Forced execution
+    wildcards: plate_name=002_BacA-2_EPS007_19700101, FOV=A05s3t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:33:27 2026]
+Finished jobid: 35 (Rule: run_cellpose)
+6 of 39 steps (15%) done
+Execute 1 jobs...
+[Wed Sep  9 17:33:27 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/001_BacA-1_EPS007_19700101/t1_A03_s3_w1_z1.tif
+    output: results/001_BacA-1_EPS007_19700101/cellpose_masks/A03s3t1z1_cellpose.tif
+    jobid: 10
+    reason: Forced execution
+    wildcards: plate_name=001_BacA-1_EPS007_19700101, FOV=A03s3t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:33:30 2026]
+Finished jobid: 10 (Rule: run_cellpose)
+7 of 39 steps (18%) done
+Execute 1 jobs...
+[Wed Sep  9 17:33:30 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/001_BacA-1_EPS007_19700101/t1_A02_s2_w1_z1.tif
+    output: results/001_BacA-1_EPS007_19700101/cellpose_masks/A02s2t1z1_cellpose.tif
+    jobid: 6
+    reason: Forced execution
+    wildcards: plate_name=001_BacA-1_EPS007_19700101, FOV=A02s2t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:33:31 2026]
+Finished jobid: 6 (Rule: run_cellpose)
+8 of 39 steps (21%) done
+Execute 1 jobs...
+[Wed Sep  9 17:33:31 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/001_BacA-1_EPS007_19700101/t1_A03_s2_w1_z1.tif
+    output: results/001_BacA-1_EPS007_19700101/cellpose_masks/A03s2t1z1_cellpose.tif
+    jobid: 9
+    reason: Forced execution
+    wildcards: plate_name=001_BacA-1_EPS007_19700101, FOV=A03s2t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:33:34 2026]
+Finished jobid: 9 (Rule: run_cellpose)
+9 of 39 steps (23%) done
+Execute 1 jobs...
+[Wed Sep  9 17:33:34 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/002_BacA-2_EPS007_19700101/t1_A04_s2_w1_z1.tif
+    output: results/002_BacA-2_EPS007_19700101/cellpose_masks/A04s2t1z1_cellpose.tif
+    jobid: 31
+    reason: Forced execution
+    wildcards: plate_name=002_BacA-2_EPS007_19700101, FOV=A04s2t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:33:37 2026]
+Finished jobid: 31 (Rule: run_cellpose)
+10 of 39 steps (26%) done
+Execute 1 jobs...
+[Wed Sep  9 17:33:37 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/001_BacA-1_EPS007_19700101/t1_A05_s2_w1_z1.tif
+    output: results/001_BacA-1_EPS007_19700101/cellpose_masks/A05s2t1z1_cellpose.tif
+    jobid: 15
+    reason: Forced execution
+    wildcards: plate_name=001_BacA-1_EPS007_19700101, FOV=A05s2t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:33:40 2026]
+Finished jobid: 15 (Rule: run_cellpose)
+11 of 39 steps (28%) done
+Execute 1 jobs...
+[Wed Sep  9 17:33:40 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/002_BacA-2_EPS007_19700101/t1_A02_s1_w1_z1.tif
+    output: results/002_BacA-2_EPS007_19700101/cellpose_masks/A02s1t1z1_cellpose.tif
+    jobid: 24
+    reason: Forced execution
+    wildcards: plate_name=002_BacA-2_EPS007_19700101, FOV=A02s1t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:33:42 2026]
+Finished jobid: 24 (Rule: run_cellpose)
+12 of 39 steps (31%) done
+Execute 1 jobs...
+[Wed Sep  9 17:33:42 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/001_BacA-1_EPS007_19700101/t1_A02_s3_w1_z1.tif
+    output: results/001_BacA-1_EPS007_19700101/cellpose_masks/A02s3t1z1_cellpose.tif
+    jobid: 7
+    reason: Forced execution
+    wildcards: plate_name=001_BacA-1_EPS007_19700101, FOV=A02s3t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:33:44 2026]
+Finished jobid: 7 (Rule: run_cellpose)
+13 of 39 steps (33%) done
+Execute 1 jobs...
+[Wed Sep  9 17:33:44 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/002_BacA-2_EPS007_19700101/t1_A04_s3_w1_z1.tif
+    output: results/002_BacA-2_EPS007_19700101/cellpose_masks/A04s3t1z1_cellpose.tif
+    jobid: 32
+    reason: Forced execution
+    wildcards: plate_name=002_BacA-2_EPS007_19700101, FOV=A04s3t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:33:46 2026]
+Finished jobid: 32 (Rule: run_cellpose)
+14 of 39 steps (36%) done
+Execute 1 jobs...
+[Wed Sep  9 17:33:46 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/001_BacA-1_EPS007_19700101/t1_A05_s3_w1_z1.tif
+    output: results/001_BacA-1_EPS007_19700101/cellpose_masks/A05s3t1z1_cellpose.tif
+    jobid: 16
+    reason: Forced execution
+    wildcards: plate_name=001_BacA-1_EPS007_19700101, FOV=A05s3t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:33:48 2026]
+Finished jobid: 16 (Rule: run_cellpose)
+15 of 39 steps (38%) done
+Execute 1 jobs...
+[Wed Sep  9 17:33:48 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/002_BacA-2_EPS007_19700101/t1_A02_s2_w1_z1.tif
+    output: results/002_BacA-2_EPS007_19700101/cellpose_masks/A02s2t1z1_cellpose.tif
+    jobid: 25
+    reason: Forced execution
+    wildcards: plate_name=002_BacA-2_EPS007_19700101, FOV=A02s2t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:33:50 2026]
+Finished jobid: 25 (Rule: run_cellpose)
+16 of 39 steps (41%) done
+Execute 1 jobs...
+[Wed Sep  9 17:33:50 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/001_BacA-1_EPS007_19700101/t1_A03_s1_w1_z1.tif
+    output: results/001_BacA-1_EPS007_19700101/cellpose_masks/A03s1t1z1_cellpose.tif
+    jobid: 8
+    reason: Forced execution
+    wildcards: plate_name=001_BacA-1_EPS007_19700101, FOV=A03s1t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:33:53 2026]
+Finished jobid: 8 (Rule: run_cellpose)
+17 of 39 steps (44%) done
+Execute 1 jobs...
+[Wed Sep  9 17:33:53 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/002_BacA-2_EPS007_19700101/t1_A05_s1_w1_z1.tif
+    output: results/002_BacA-2_EPS007_19700101/cellpose_masks/A05s1t1z1_cellpose.tif
+    jobid: 33
+    reason: Forced execution
+    wildcards: plate_name=002_BacA-2_EPS007_19700101, FOV=A05s1t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:33:55 2026]
+Finished jobid: 33 (Rule: run_cellpose)
+18 of 39 steps (46%) done
+Execute 1 jobs...
+[Wed Sep  9 17:33:55 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/001_BacA-1_EPS007_19700101/t1_A01_s3_w1_z1.tif
+    output: results/001_BacA-1_EPS007_19700101/cellpose_masks/A01s3t1z1_cellpose.tif
+    jobid: 4
+    reason: Forced execution
+    wildcards: plate_name=001_BacA-1_EPS007_19700101, FOV=A01s3t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:33:57 2026]
+Finished jobid: 4 (Rule: run_cellpose)
+19 of 39 steps (49%) done
+Execute 1 jobs...
+[Wed Sep  9 17:33:57 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/002_BacA-2_EPS007_19700101/t1_A03_s2_w1_z1.tif
+    output: results/002_BacA-2_EPS007_19700101/cellpose_masks/A03s2t1z1_cellpose.tif
+    jobid: 28
+    reason: Forced execution
+    wildcards: plate_name=002_BacA-2_EPS007_19700101, FOV=A03s2t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:34:00 2026]
+Finished jobid: 28 (Rule: run_cellpose)
+20 of 39 steps (51%) done
+Execute 1 jobs...
+[Wed Sep  9 17:34:00 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/001_BacA-1_EPS007_19700101/t1_A04_s2_w1_z1.tif
+    output: results/001_BacA-1_EPS007_19700101/cellpose_masks/A04s2t1z1_cellpose.tif
+    jobid: 12
+    reason: Forced execution
+    wildcards: plate_name=001_BacA-1_EPS007_19700101, FOV=A04s2t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:34:03 2026]
+Finished jobid: 12 (Rule: run_cellpose)
+21 of 39 steps (54%) done
+Execute 1 jobs...
+[Wed Sep  9 17:34:03 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/002_BacA-2_EPS007_19700101/t1_A04_s1_w1_z1.tif
+    output: results/002_BacA-2_EPS007_19700101/cellpose_masks/A04s1t1z1_cellpose.tif
+    jobid: 30
+    reason: Forced execution
+    wildcards: plate_name=002_BacA-2_EPS007_19700101, FOV=A04s1t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:34:05 2026]
+Finished jobid: 30 (Rule: run_cellpose)
+22 of 39 steps (56%) done
+Execute 1 jobs...
+[Wed Sep  9 17:34:05 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/001_BacA-1_EPS007_19700101/t1_A05_s1_w1_z1.tif
+    output: results/001_BacA-1_EPS007_19700101/cellpose_masks/A05s1t1z1_cellpose.tif
+    jobid: 14
+    reason: Forced execution
+    wildcards: plate_name=001_BacA-1_EPS007_19700101, FOV=A05s1t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:34:07 2026]
+Finished jobid: 14 (Rule: run_cellpose)
+23 of 39 steps (59%) done
+Execute 1 jobs...
+[Wed Sep  9 17:34:07 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/002_BacA-2_EPS007_19700101/t1_A06_s1_w1_z1.tif
+    output: results/002_BacA-2_EPS007_19700101/cellpose_masks/A06s1t1z1_cellpose.tif
+    jobid: 36
+    reason: Forced execution
+    wildcards: plate_name=002_BacA-2_EPS007_19700101, FOV=A06s1t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:34:11 2026]
+Finished jobid: 36 (Rule: run_cellpose)
+24 of 39 steps (62%) done
+Execute 1 jobs...
+[Wed Sep  9 17:34:11 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/002_BacA-2_EPS007_19700101/t1_A01_s1_w1_z1.tif
+    output: results/002_BacA-2_EPS007_19700101/cellpose_masks/A01s1t1z1_cellpose.tif
+    jobid: 21
+    reason: Forced execution
+    wildcards: plate_name=002_BacA-2_EPS007_19700101, FOV=A01s1t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:34:13 2026]
+Finished jobid: 21 (Rule: run_cellpose)
+25 of 39 steps (64%) done
+Execute 1 jobs...
+[Wed Sep  9 17:34:13 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/002_BacA-2_EPS007_19700101/t1_A06_s3_w1_z1.tif
+    output: results/002_BacA-2_EPS007_19700101/cellpose_masks/A06s3t1z1_cellpose.tif
+    jobid: 38
+    reason: Forced execution
+    wildcards: plate_name=002_BacA-2_EPS007_19700101, FOV=A06s3t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:34:17 2026]
+Finished jobid: 38 (Rule: run_cellpose)
+26 of 39 steps (67%) done
+Execute 1 jobs...
+[Wed Sep  9 17:34:17 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/002_BacA-2_EPS007_19700101/t1_A01_s3_w1_z1.tif
+    output: results/002_BacA-2_EPS007_19700101/cellpose_masks/A01s3t1z1_cellpose.tif
+    jobid: 23
+    reason: Forced execution
+    wildcards: plate_name=002_BacA-2_EPS007_19700101, FOV=A01s3t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:34:19 2026]
+Finished jobid: 23 (Rule: run_cellpose)
+27 of 39 steps (69%) done
+Execute 1 jobs...
+[Wed Sep  9 17:34:19 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/002_BacA-2_EPS007_19700101/t1_A02_s3_w1_z1.tif
+    output: results/002_BacA-2_EPS007_19700101/cellpose_masks/A02s3t1z1_cellpose.tif
+    jobid: 26
+    reason: Forced execution
+    wildcards: plate_name=002_BacA-2_EPS007_19700101, FOV=A02s3t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:34:20 2026]
+Finished jobid: 26 (Rule: run_cellpose)
+28 of 39 steps (72%) done
+Execute 1 jobs...
+[Wed Sep  9 17:34:20 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/001_BacA-1_EPS007_19700101/t1_A01_s2_w1_z1.tif
+    output: results/001_BacA-1_EPS007_19700101/cellpose_masks/A01s2t1z1_cellpose.tif
+    jobid: 3
+    reason: Forced execution
+    wildcards: plate_name=001_BacA-1_EPS007_19700101, FOV=A01s2t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:34:23 2026]
+Finished jobid: 3 (Rule: run_cellpose)
+29 of 39 steps (74%) done
+Execute 1 jobs...
+[Wed Sep  9 17:34:23 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/001_BacA-1_EPS007_19700101/t1_A02_s1_w1_z1.tif
+    output: results/001_BacA-1_EPS007_19700101/cellpose_masks/A02s1t1z1_cellpose.tif
+    jobid: 5
+    reason: Forced execution
+    wildcards: plate_name=001_BacA-1_EPS007_19700101, FOV=A02s1t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:34:25 2026]
+Finished jobid: 5 (Rule: run_cellpose)
+30 of 39 steps (77%) done
+Execute 1 jobs...
+[Wed Sep  9 17:34:25 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/002_BacA-2_EPS007_19700101/t1_A01_s2_w1_z1.tif
+    output: results/002_BacA-2_EPS007_19700101/cellpose_masks/A01s2t1z1_cellpose.tif
+    jobid: 22
+    reason: Forced execution
+    wildcards: plate_name=002_BacA-2_EPS007_19700101, FOV=A01s2t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:34:27 2026]
+Finished jobid: 22 (Rule: run_cellpose)
+31 of 39 steps (79%) done
+Execute 1 jobs...
+[Wed Sep  9 17:34:27 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/002_BacA-2_EPS007_19700101/t1_A06_s2_w1_z1.tif
+    output: results/002_BacA-2_EPS007_19700101/cellpose_masks/A06s2t1z1_cellpose.tif
+    jobid: 37
+    reason: Forced execution
+    wildcards: plate_name=002_BacA-2_EPS007_19700101, FOV=A06s2t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:34:31 2026]
+Finished jobid: 37 (Rule: run_cellpose)
+32 of 39 steps (82%) done
+Execute 1 jobs...
+[Wed Sep  9 17:34:31 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/001_BacA-1_EPS007_19700101/t1_A04_s3_w1_z1.tif
+    output: results/001_BacA-1_EPS007_19700101/cellpose_masks/A04s3t1z1_cellpose.tif
+    jobid: 13
+    reason: Forced execution
+    wildcards: plate_name=001_BacA-1_EPS007_19700101, FOV=A04s3t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:34:33 2026]
+Finished jobid: 13 (Rule: run_cellpose)
+33 of 39 steps (85%) done
+Execute 1 jobs...
+[Wed Sep  9 17:34:33 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/002_BacA-2_EPS007_19700101/t1_A03_s3_w1_z1.tif
+    output: results/002_BacA-2_EPS007_19700101/cellpose_masks/A03s3t1z1_cellpose.tif
+    jobid: 29
+    reason: Forced execution
+    wildcards: plate_name=002_BacA-2_EPS007_19700101, FOV=A03s3t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+[Wed Sep  9 17:34:35 2026]
+Finished jobid: 29 (Rule: run_cellpose)
+34 of 39 steps (87%) done
+Execute 2 jobs...
+[Wed Sep  9 17:34:35 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/001_BacA-1_EPS007_19700101/t1_A06_s1_w1_z1.tif
+    output: results/001_BacA-1_EPS007_19700101/cellpose_masks/A06s1t1z1_cellpose.tif
+    jobid: 17
+    reason: Forced execution
+    wildcards: plate_name=001_BacA-1_EPS007_19700101, FOV=A06s1t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+[Wed Sep  9 17:34:35 2026]
+localrule process_fov:
+    input: results/002_BacA-2_EPS007_19700101/cellpose_masks/A01s1t1z1_cellpose.tif, results/002_BacA-2_EPS007_19700101/cellpose_masks/A01s2t1z1_cellpose.tif, results/002_BacA-2_EPS007_19700101/cellpose_masks/A01s3t1z1_cellpose.tif, results/002_BacA-2_EPS007_19700101/cellpose_masks/A02s1t1z1_cellpose.tif, results/002_BacA-2_EPS007_19700101/cellpose_masks/A02s2t1z1_cellpose.tif, results/002_BacA-2_EPS007_19700101/cellpose_masks/A02s3t1z1_cellpose.tif, results/002_BacA-2_EPS007_19700101/cellpose_masks/A03s1t1z1_cellpose.tif, results/002_BacA-2_EPS007_19700101/cellpose_masks/A03s2t1z1_cellpose.tif, results/002_BacA-2_EPS007_19700101/cellpose_masks/A03s3t1z1_cellpose.tif, results/002_BacA-2_EPS007_19700101/cellpose_masks/A04s1t1z1_cellpose.tif, results/002_BacA-2_EPS007_19700101/cellpose_masks/A04s2t1z1_cellpose.tif, results/002_BacA-2_EPS007_19700101/cellpose_masks/A04s3t1z1_cellpose.tif, results/002_BacA-2_EPS007_19700101/cellpose_masks/A05s1t1z1_cellpose.tif, results/002_BacA-2_EPS007_19700101/cellpose_masks/A05s2t1z1_cellpose.tif, results/002_BacA-2_EPS007_19700101/cellpose_masks/A05s3t1z1_cellpose.tif, results/002_BacA-2_EPS007_19700101/cellpose_masks/A06s1t1z1_cellpose.tif, results/002_BacA-2_EPS007_19700101/cellpose_masks/A06s2t1z1_cellpose.tif, results/002_BacA-2_EPS007_19700101/cellpose_masks/A06s3t1z1_cellpose.tif
+    output: results/002_BacA-2_EPS007_19700101/cellpose.done
+    jobid: 20
+    reason: Forced execution
+    wildcards: plate_name=002_BacA-2_EPS007_19700101
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T
+Select jobs to execute...
+[Wed Sep  9 17:34:35 2026]
+Finished jobid: 20 (Rule: process_fov)
+35 of 39 steps (90%) done
+[Wed Sep  9 17:34:39 2026]
+Finished jobid: 17 (Rule: run_cellpose)
+36 of 39 steps (92%) done
+Execute 1 jobs...
+[Wed Sep  9 17:34:39 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/001_BacA-1_EPS007_19700101/t1_A06_s3_w1_z1.tif
+    output: results/001_BacA-1_EPS007_19700101/cellpose_masks/A06s3t1z1_cellpose.tif
+    jobid: 19
+    reason: Forced execution
+    wildcards: plate_name=001_BacA-1_EPS007_19700101, FOV=A06s3t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+[Wed Sep  9 17:34:42 2026]
+Finished jobid: 19 (Rule: run_cellpose)
+37 of 39 steps (95%) done
+Select jobs to execute...
+Execute 1 jobs...
+[Wed Sep  9 17:34:42 2026]
+localrule process_fov:
+    input: results/001_BacA-1_EPS007_19700101/cellpose_masks/A01s1t1z1_cellpose.tif, results/001_BacA-1_EPS007_19700101/cellpose_masks/A01s2t1z1_cellpose.tif, results/001_BacA-1_EPS007_19700101/cellpose_masks/A01s3t1z1_cellpose.tif, results/001_BacA-1_EPS007_19700101/cellpose_masks/A02s1t1z1_cellpose.tif, results/001_BacA-1_EPS007_19700101/cellpose_masks/A02s2t1z1_cellpose.tif, results/001_BacA-1_EPS007_19700101/cellpose_masks/A02s3t1z1_cellpose.tif, results/001_BacA-1_EPS007_19700101/cellpose_masks/A03s1t1z1_cellpose.tif, results/001_BacA-1_EPS007_19700101/cellpose_masks/A03s2t1z1_cellpose.tif, results/001_BacA-1_EPS007_19700101/cellpose_masks/A03s3t1z1_cellpose.tif, results/001_BacA-1_EPS007_19700101/cellpose_masks/A04s1t1z1_cellpose.tif, results/001_BacA-1_EPS007_19700101/cellpose_masks/A04s2t1z1_cellpose.tif, results/001_BacA-1_EPS007_19700101/cellpose_masks/A04s3t1z1_cellpose.tif, results/001_BacA-1_EPS007_19700101/cellpose_masks/A05s1t1z1_cellpose.tif, results/001_BacA-1_EPS007_19700101/cellpose_masks/A05s2t1z1_cellpose.tif, results/001_BacA-1_EPS007_19700101/cellpose_masks/A05s3t1z1_cellpose.tif, results/001_BacA-1_EPS007_19700101/cellpose_masks/A06s1t1z1_cellpose.tif, results/001_BacA-1_EPS007_19700101/cellpose_masks/A06s2t1z1_cellpose.tif, results/001_BacA-1_EPS007_19700101/cellpose_masks/A06s3t1z1_cellpose.tif
+    output: results/001_BacA-1_EPS007_19700101/cellpose.done
+    jobid: 1
+    reason: Forced execution
+    wildcards: plate_name=001_BacA-1_EPS007_19700101
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T
+[Wed Sep  9 17:34:42 2026]
+Finished jobid: 1 (Rule: process_fov)
+38 of 39 steps (97%) done
+Select jobs to execute...
+Execute 1 jobs...
+[Wed Sep  9 17:34:42 2026]
+localrule all:
+    input: results/001_BacA-1_EPS007_19700101/cellpose.done, results/002_BacA-2_EPS007_19700101/cellpose.done
+    jobid: 0
+    reason: Forced execution
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T
+[Wed Sep  9 17:34:42 2026]
+Finished jobid: 0 (Rule: all)
+39 of 39 steps (100%) done
+Complete log(s): /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/BacilliScope/.snakemake/log/2026-09-09T173255.112908.snakemake.log

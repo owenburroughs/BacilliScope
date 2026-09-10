@@ -204,7 +204,7 @@ class CellposeServer():
             batch_size: int,
             min_size: int
     ):
-        start_time = time.time()  
+        start_time = time.time()
         input_image = Image.open(input_file)
         image_array = np.asarray(input_image)
         
@@ -225,7 +225,7 @@ class CellposeServer():
         
         # Report the average runtime if we hit our interval
         if (len(self.runtimes) % RUNTIME_REPORT_INTERVAL) == 0:
-            print(f'Cellpose ran in {self.runtimes}')
+            print(f'Cellpose ran in {self.runtimes[-1]}')
             print(f'Run cellpose {len(self.runtimes)} times with an average of {np.mean(self.runtimes)} seconds per image.')
         
     #-------------------------------------------------

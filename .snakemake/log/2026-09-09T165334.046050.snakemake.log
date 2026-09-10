@@ -1,0 +1,11 @@
+Assuming unrestricted shared filesystem usage.
+host: MacBook-Pro-826.local
+Building DAG of jobs...
+InputFunctionException in rule run_cellpose in file "/Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/BacilliScope/workflow/Snakefile", line 109:
+Error:
+  NameError: name 'name' is not defined
+Wildcards:
+  plate_name=001_BacA-1_EPS007_19700101
+  FOV=A01s1t1z1
+Traceback:
+  File "/Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/BacilliScope/workflow/Snakefile", line 111, in <lambda> (rule run_cellpose, line 134, /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/BacilliScope/workflow/Snakefile)

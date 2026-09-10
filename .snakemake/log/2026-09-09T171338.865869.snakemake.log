@@ -1,0 +1,46 @@
+Assuming unrestricted shared filesystem usage.
+host: MacBook-Pro-826.local
+Building DAG of jobs...
+Using shell: /bin/zsh
+Provided cores: 11
+Rules claiming more threads will be scaled down.
+Provided resources: gpu=Resource("gpu", 1)
+Job stats:
+job             count
+------------  -------
+run_cellpose       36
+process_fov         2
+all                 1
+total              39
+
+Select jobs to execute...
+Execute 1 jobs...
+[Wed Sep  9 17:13:39 2026]
+localrule run_cellpose:
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/001_BacA-1_EPS007_19700101/t1_A01_s1_w1_z1.tif
+    output: results/001_BacA-1_EPS007_19700101/cellpose_masks/A01s1t1z1_cellpose.tif
+    jobid: 2
+    reason: Forced execution
+    wildcards: plate_name=001_BacA-1_EPS007_19700101, FOV=A01s1t1z1
+    resources: tmpdir=/var/folders/bf/bkdpjl_d21s9fv1m0tz4bf4h0000gn/T, gpu=1
+Select jobs to execute...
+RuleException:
+CalledProcessError in file "/Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/BacilliScope/workflow/Snakefile", line 130:
+Command '/Users/owenburroughs/miniforge3/envs/Bacilliscope2/bin/python3.13 /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/BacilliScope/.snakemake/scripts/tmpoba4ewy3.2a_cellpose_client.py' returned non-zero exit status 1.
+[Wed Sep  9 17:13:46 2026]
+Error in rule run_cellpose:
+    message: None
+    jobid: 2
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/001_BacA-1_EPS007_19700101/t1_A01_s1_w1_z1.tif
+    output: results/001_BacA-1_EPS007_19700101/cellpose_masks/A01s1t1z1_cellpose.tif
+Shutting down, this might take some time.
+Exiting because a job execution failed. Look below for error messages
+[Wed Sep  9 17:13:46 2026]
+Error in rule run_cellpose:
+    message: None
+    jobid: 2
+    input: /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset/001_BacA-1_EPS007_19700101/t1_A01_s1_w1_z1.tif
+    output: results/001_BacA-1_EPS007_19700101/cellpose_masks/A01s1t1z1_cellpose.tif
+Complete log(s): /Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/BacilliScope/.snakemake/log/2026-09-09T171338.865869.snakemake.log
+WorkflowError:
+At least one job did not complete successfully.
