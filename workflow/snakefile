@@ -78,7 +78,7 @@ def get_channel_image(wildcards, channel):
     return f'{config['pathvars']['plate_data']}/{wildcards.plate_name}/{
                 generate_raw_name(
                     groupdict = extract_std_name(wildcards.FOV),
-                    channel = config['channels']['cellmask']
+                    channel = channel
                 )}'
 
 #-----------------------------------------------------------
