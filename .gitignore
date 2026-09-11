@@ -7,6 +7,6 @@ Test_Output
 *.tif
 */.DS_Store
 .DS_Store
-*/__pycache__
+**/__pycache__/
 results/*
 .snakemake

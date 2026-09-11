@@ -1,6 +1,7 @@
 # The directory containing the plate data
 pathvars:
   plate_data: '/Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/Test_Dataset'
+  databases: '/Users/owenburroughs/Desktop/Personal_Skaar_Lab/EPS007_Code/BacilliScope/results/databases'
 
 # The channel indicies for this experiment
 channels:
@@ -19,3 +20,8 @@ cellpose:
 
 # The proportion of images to sample for Otsu thresholds
 sample_proportion: 0.1
+
+# The wells used for different controls
+control_virus_wells: [['O',17],['O',18],['O',19]]
+reporter_control_wells: [['O',20],['O',21],['O',22]]
+uninfected_wells: [['O',23],['O',24]]

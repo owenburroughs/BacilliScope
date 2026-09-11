@@ -20,7 +20,8 @@ PLATE_NAMES = [
 ]
 
 # -------- Get PID of snakemake process ----------
-PID = os.getpid()
+config['PID'] = os.getpid()
+
 
 #-------------- Raw Name Functions -------
 # Matches something like: 't1_A01_s1_w1_z1.tif'
@@ -43,7 +44,6 @@ def generate_std_name(groupdict):
 def extract_std_name(std_name: str):
     return std_name_pattern.search(std_name).groupdict()
 
-
 #-------------- Get unique FOVs given a plate name ----------------------
 # Function to return all of the unique FOVs in a plate name folder using set comprehension
 def get_FOVs(wildcards):
@@ -53,6 +53,13 @@ def get_FOVs(wildcards):
         for p in Path(plate_dir).iterdir()        
         if ImageXpress_name_pattern.search(str(p)) != None
     })
+
+#------------- Extract metadata from a plate name -------------------------
+plate_name_regex = r'(?P<plate_number>\d*)_(?P<plate_contents>.*)_(?P<screen_name>.*)_(?P<acquisition_date>.*)_'
+plate_name_pattern = re.compile(plate_name_regex)
+
+def extract_plate_name(plate_name):
+    return plate_name_pattern.search(plate_name).groupdict()
 
 #-------------- Factory function to generate list of all images from channel ---------------
 def get_channel_images(channel):
@@ -75,11 +82,11 @@ def get_channel_image(wildcards, channel):
                 )}'
 
 #-----------------------------------------------------------
-# RULE ALL: Resolve plate names from directory names
+# RULE ALL: Make a unique .db file for each input plate name
 #-----------------------------------------------------------
 rule all:
    input:
-       expand("<results>/{plate_name}/processFOV.done", plate_name=PLATE_NAMES)
+       expand("<databases>/{plate_name}.db", plate_name=PLATE_NAMES)
 
 
 #-----------------------------------------------------------
@@ -123,7 +130,6 @@ rule run_cellpose:
         resample = config['cellpose']['resample'],
         batch_size = config['cellpose']['batch_size'],
         min_size = config['cellpose']['min_size'],
-        snakemake_PID = PID,
         socket_path = config['cellpose']['socket_path'],
         server_path = f'{workflow.basedir}/scripts/2b_cellpose_server.py',
         verbose = config['cellpose']['verbose']
@@ -160,7 +166,6 @@ rule process_fov:
         row = lambda wc: extract_std_name(wc.FOV)['row'],
         column = lambda wc: extract_std_name(wc.FOV)['column'],
         site = lambda wc: extract_std_name(wc.FOV)['site'],
-        plate_id = "{plate_name}"
 
     script:
         "scripts/3_process_fov.py"
@@ -168,12 +173,32 @@ rule process_fov:
 #-----------------------------------------------------------
 # RULE 4: Combine Parquets
 #-----------------------------------------------------------
+
 rule combine_parquets:
     input:
-        cellpose_parquet= expand("<results>/{{plate_name}}/parquets/{FOV}_cellpose.parquet", FOV = get_FOVs)
+        cellpose_parquets = expand("<results>/{{plate_name}}/parquets/{FOV}_cellpose.parquet", FOV = get_FOVs),
+        constitutive_parquets = expand("<results>/{{plate_name}}/parquets/{FOV}_constitutive.parquet", FOV = get_FOVs),
+        reporter_parquets = expand("<results>/{{plate_name}}/parquets/{FOV}_reporter.parquet", FOV = get_FOVs),
+        constOverlap_parquets = expand("<results>/{{plate_name}}/parquets/{FOV}_constOverlap.parquet", FOV = get_FOVs),
+        repOverlap_parquets = expand("<results>/{{plate_name}}/parquets/{FOV}_repOverlap.parquet", FOV = get_FOVs),
+
+        library_annotation_file = "<resources>/SangerLibraryAnnotations.csv",
+
     output:
-        "<results>/{plate_name}/processFOV.done"
-    shell:
-        """
-            echo "Test" >> {output}
-        """
+        database_output = "<databases>/{plate_name}.db",
+
+    params:
+        represented_FOVs = lambda wc: [{'well_row': extract_std_name(FOV)['row'], 'well_column': extract_std_name(FOV)['column'], 'well_site': extract_std_name(FOV)['site']}
+                                        for FOV in get_FOVs(wc)],
+
+        plate_id = "{plate_name}",
+        plate_name = "{plate_name}",
+        plate_number = lambda wc: extract_plate_name(wc.plate_name)['plate_number'],
+        acquisition_date = lambda wc: extract_plate_name(wc.plate_name)['acquisition_date'],
+
+        control_virus_wells = config['control_virus_wells'],
+        reporter_control_wells = config['reporter_control_wells'],
+        uninfected_wells = config['uninfected_wells'],
+
+    script:
+        'scripts/4_combine_parquets.py'

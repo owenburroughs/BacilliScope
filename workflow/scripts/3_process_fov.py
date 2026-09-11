@@ -42,7 +42,7 @@ def process_fov(
     row: str,
     column: int,
     site: int,
-    plate_id: str,
+    plate_name: str,
 ):
     #Get analysis parameters
     with open(analysis_params_path) as f:
@@ -99,24 +99,49 @@ def process_fov(
     )
     
     #Save dataframes into csv and parquet files
-    cellpose_props_df = cellpose_props_df.assign(plate_id = plate_id, well_row = row, well_column = column, well_site = site)
+    cellpose_props_df = cellpose_props_df.assign(plate_name = plate_name, well_row = row, well_column = column, well_site = site)
     cellpose_props_df.rename(columns = {"label" : "cell_id"}, inplace=True)
+    cellpose_props_df = cellpose_props_df.astype({
+            "well_column" : "int64",
+            "well_row" : "string",
+            "plate_name" : "string"
+        })
     cellpose_props_df.to_parquet(cellpose_parquet_out)
     
-    constitutive_props_df = constitutive_props_df.assign(plate_id = plate_id, well_row = row, well_column = column, well_site = site)
+    constitutive_props_df = constitutive_props_df.assign(plate_name = plate_name, well_row = row, well_column = column, well_site = site)
     constitutive_props_df.rename(columns = {"label" : "constitutive_id"}, inplace=True)
+    constitutive_props_df = constitutive_props_df.astype({
+            "well_column" : "int64",
+            "well_row" : "string",
+            "plate_name" : "string"
+        })
     constitutive_props_df.to_parquet(constitutive_parquet_out)
     
-    reporter_props_df = reporter_props_df.assign(plate_id = plate_id, well_row = row, well_column = column, well_site = site)
+    reporter_props_df = reporter_props_df.assign(plate_name = plate_name, well_row = row, well_column = column, well_site = site)
     reporter_props_df.rename(columns = {"label" : "reporter_id"}, inplace= True)
+    reporter_props_df = reporter_props_df.astype({
+            "well_column" : "int64",
+            "well_row" : "string",
+            "plate_name" : "string"
+        })
     reporter_props_df.to_parquet(reporter_parquet_out)
     
-    labeled_const_overlap_props_df = labeled_const_overlap_props_df.assign(plate_id = plate_id, well_row = row, well_column = column, well_site = site)
+    labeled_const_overlap_props_df = labeled_const_overlap_props_df.assign(plate_name = plate_name, well_row = row, well_column = column, well_site = site)
     labeled_const_overlap_props_df.rename(columns = {"label" : "const_overlap_id"}, inplace=True)
+    labeled_const_overlap_props_df = labeled_const_overlap_props_df.astype({
+            "well_column" : "int64",
+            "well_row" : "string",
+            "plate_name" : "string"
+        })
     labeled_const_overlap_props_df.to_parquet(constOverlap_parquet_out)
     
-    labeled_rep_overlap_props_df = labeled_rep_overlap_props_df.assign(plate_id = plate_id, well_row = row, well_column = column, well_site = site)
+    labeled_rep_overlap_props_df = labeled_rep_overlap_props_df.assign(plate_name = plate_name, well_row = row, well_column = column, well_site = site)
     labeled_rep_overlap_props_df.rename(columns={"label" : "rep_overlap_id"}, inplace=True)
+    labeled_rep_overlap_props_df = labeled_rep_overlap_props_df.astype({
+            "well_column" : "int64",
+            "well_row" : "string",
+            "plate_name" : "string"
+        })
     labeled_rep_overlap_props_df.to_parquet(repOverlap_parquet_out)
     
 #-----------------------------------------------------------
@@ -143,7 +168,7 @@ if __name__ == "__main__":
         row= snakemake.params['row']
         column= snakemake.params['column']
         site= snakemake.params['site']
-        plate_id= snakemake.params['plate_id']
+        plate_name= snakemake.wildcards['plate_name']
     
     # We might be running from command line
     except NameError:
@@ -158,7 +183,7 @@ if __name__ == "__main__":
         parser.add_argument('--row', help="Row on plate of FOV", type=str)
         parser.add_argument('--column', help="Column on plate of FOV", type=int)
         parser.add_argument('--site', help="Site in well of FOV", type=int)
-        parser.add_argument('--plate_id', help="ID of plate", type=str)
+        parser.add_argument('--plate_name', help="Name of plate", type=str)
         args = vars(parser.parse_args())
         
         cellpose_image_path= args['cellpose_image']
@@ -171,9 +196,9 @@ if __name__ == "__main__":
         row= args['row']
         column= args['column']
         site= args['site']
-        plate_id= args['plate_id']
+        plate_name= args['plate_name']
         
-        FOV_id = f'{plate_id}_{row}_{column}_{site}'
+        FOV_id = f'{row}_{column}_{site}'
         
         merged_image_out= f'{image_output_dir}/{FOV_id}_merged.tif'
         cellpose_parquet_out= f'{parquet_output_dir}/{FOV_id}_cellpose.parquet'
@@ -200,5 +225,5 @@ if __name__ == "__main__":
         row= row,
         column= column,
         site= site,
-        plate_id= plate_id,
+        plate_name= plate_name,
     )

@@ -226,7 +226,7 @@ if __name__ == "__main__":
         resample = snakemake.params['resample']
         batch_size = snakemake.params['batch_size']
         min_size = snakemake.params['min_size']
-        snakemake_PID = snakemake.params['snakemake_PID']
+        snakemake_PID = snakemake.config['PID']
         socket_path = snakemake.params['socket_path']
         server_path = snakemake.params['server_path']
         
